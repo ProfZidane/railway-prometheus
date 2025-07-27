@@ -18,10 +18,14 @@ scrape_configs:
     static_configs:
       - targets: ['localhost:9090']
   
-  - job_name: 'demo_application'
+  - job_name: 'railway-backend'
     scrape_interval: 5s
     static_configs:
-      - targets: ['demo.do.prometheus.io:9090']
+      - targets: ['${BACKEND_URL}']
+    metrics_path: '/metrics'
+    scheme: https
+    scrape_interval: 15s
+    scrape_timeout: 10s
 
   # - job_name: 'postgres'
   #   scrape_interval: 5s
