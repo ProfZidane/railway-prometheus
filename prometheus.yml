@@ -11,7 +11,7 @@ scrape_configs:
   
   - job_name: 'railway-backend'
     static_configs:
-      - targets: ['${BACKEND_URL}']
+      - targets: ['web-production-70191.up.railway.app']
     metrics_path: '/metrics'
     scheme: https
     scrape_interval: 15s
