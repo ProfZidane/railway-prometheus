@@ -1,18 +1,19 @@
 FROM prom/prometheus
 
-# copy the Prometheus configuration file
-COPY prometheus.yml /etc/prometheus/prometheus.yml
-# expose the Prometheus server port
+# Install envsubst
+USER root
+RUN apk add --no-cache gettext
+
+# Copy configuration template and entrypoint script
+COPY prometheus.yml /etc/prometheus/prometheus.yml.template
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+# Set default environment variables
+ENV PROMETHEUS_TARGET=localhost:9090
+ENV RAILWAY_BACKEND_TARGET=web-production-70191.up.railway.app
+
 EXPOSE 9090
 
-# set the entrypoint command
-USER root
-ENTRYPOINT [ "/bin/prometheus" ]
-CMD        [ "--config.file=/etc/prometheus/prometheus.yml", \
-             "--storage.tsdb.path=/prometheus", \
-             "--storage.tsdb.retention.time=365d", \
-             "--web.console.libraries=/usr/share/prometheus/console_libraries", \
-             "--web.console.templates=/usr/share/prometheus/consoles", \
-             "--web.external-url=http://localhost:9090", \
-             "--log.level=info"]
+ENTRYPOINT ["/entrypoint.sh"]
  
