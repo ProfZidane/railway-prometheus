@@ -6,8 +6,7 @@ RUN apk add --no-cache gettext
 
 # Copy configuration template and entrypoint script
 COPY prometheus.yml /etc/prometheus/prometheus.yml.template
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+
 
 # Set default environment variables
 ENV PROMETHEUS_TARGET=localhost:9090
